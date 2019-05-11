@@ -29,11 +29,18 @@ class FileManager():
         return datas
 
 
-    def write_file(self, file_name, datas, js = False):
-        with open(file_name, 'w') as f:
+    def write_file(self, file_name, datas, js = False, w_type = 'w', failed_counter = False):
+        count = 0
+        with open(file_name, w_type) as f:
             for data in datas:
                 line = data
                 if js:
                     line = json.dumps(data, ensure_ascii=False)
-                f.write(line + '\n')
+                try:
+                    f.write(line + '\n')
+                except:
+                    count += 1
+                    continue
+        if failed_counter is True:
+            print count
 
